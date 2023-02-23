@@ -1,0 +1,66 @@
+def appname = "ETTMS" // This refers to the flutter 'Runner' target.
+def xcarchive = "${appname}.xcarchive"
+
+pipeline {
+    agent { 
+        label 'Flutter' 
+    } //Change this to whatever your flutter jenkins nodes are labeled.
+    environment {
+        DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer/"  //This is necessary for Fastlane to access iOS Build things.
+        APPCENTER_API_TOKEN = credentials('at-this-moment-you-should-be-with-us')        
+    }
+    stages {
+        stage ('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage ('Flutter Doctor') {
+            steps {
+                sh "flutter doctor -v"
+            }
+        }
+        stage ('Run Flutter Tests') {
+            steps {
+                sh "flutter test --coverage test/my_tests.dart"
+            }
+        }
+        stage ('Flutter Build APK') {
+            steps {
+                sh "flutter build apk --split-per-abi"
+            }
+        }
+        stage('Distribute Android APK') {
+            steps {
+                appCenter apiToken: 'API_TOKEN_HERE',
+                        ownerName: 'OWNER_NAME',
+                        appName: 'APP_NAME',
+                        pathToApp: 'build/app/outputs/apk/release/app-release.apk',
+                        distributionGroups: 'DISTRIBUTION_GROUP'
+            }
+        }
+        stage('Flutter Build iOS') {
+            steps {
+                sh "flutter build ios --release --no-codesign"
+            }
+        }
+        stage('Make iOS IPA And Distribute') {
+                steps {
+                    dir('ios'){
+                            sh "bundle install"
+                            sh "bundle exec fastlane release --verbose" 
+                    }
+                }
+        }
+        stage('Cleanup') {
+            steps {
+                sh "flutter clean"
+            }
+        }
+    }
+
+    post { 
+        success { 
+                slackSend channel: '#automation', message: 'The $BUILD_NUMBER succeeded and the apps uploaded successfully'
+        }
+    }

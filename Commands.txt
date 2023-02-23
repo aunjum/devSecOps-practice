@@ -1,0 +1,85 @@
+Passphrase:
+uxd2021.
+
+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
+
+sudo systemctl daemon-reload
+
+sudo systemctl start jenkins
+
+sudo systemctl status jenkins
+
+
+
+//////////////git///////////
+
+git lfs track "largefiles/*.xml"
+
+git lfs track 
+
+git lfs ls-files
+
+sudo service apache2 restart
+
+
+
+////////docker//////////
+
+sudo docker run -p 8090:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
+
+sudo docker run -p 8090:8080 -p 50000:50000 jenkins 
+
+
+docker stop $(docker ps -a -q)
+
+sudo docker run hello-world
+
+sudo docker rmi ImageID
+
+sudo docker inspect jenkins
+
+sudo docker ps
+
+sudo docker ps -a
+
+sudo docker history ImageID
+
+sudo docker stop ContainerID 
+
+sudo docker rm ContainerID
+
+sudo docker stats ContainerID
+
+sudo docker pause ContainerID
+
+sudo docker unpause ContainerID
+
+******************************************
+docker rm -f $(docker ps -a -q)
+docker volume rm $(docker volume ls -q)
+******************************************
+
+docker network create phpmyadmin-network
+docker pull mysql
+docker pull phpmyadmin/phpmyadmin
+docker images
+docker volume create mysql-data
+docker volume create mysql-data
+sudo ln -s /var/lib/docker/volumes/mysql-data/_data /mysql
+docker run -d --name mysql-server -v mysql-data:/var/lib/mysql --network phpmyadmin-network -e "MYSQL_ROOT_PASSWORD=1234" mysql
+72a0cafbb5d4c355c0dd96e7af009558ad9b3e27ba2cdf165e533e9660a07566
+docker run -d --name phpmyadmin -p 80:80 --network phpmyadmin-network -e PMA_HOST=mysql-server phpmyadmin/phpmyadmin
+1b3c9810538b790fc06fa767cffbcb184067e2579dfea8360b84e7af57a34562
+
+
+
+initialpass:
+246ae31333954fb589420827b8286647
+
+export PATH="$PATH:`pwd`/home/aunjum/snap/flutter/common/flutter/bin"
+
+phpmyadmin-network:
+451971dfc4ae5f0d382c2b56b06d107df8acbd32ffef0cc8247433ab2a2f69c4
+
+npm i
+npm start
